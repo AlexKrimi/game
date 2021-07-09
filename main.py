@@ -1,4 +1,5 @@
 import random
+from typing import Any
 
 MONSTER_COUNTER = 0
 HP = 15
@@ -33,7 +34,7 @@ def generate_items(item: str) -> dict:
         return {'heal': f'{heal}'}
 
 
-def game():
+def game()-> Any:
     '''
        Управляющая функция, которая запускает все остальные фунцкции
        Args:
@@ -44,10 +45,9 @@ def game():
            Если event_action вернул monster_attack и monster_hp тогда
             запускается фунция battle()
        Return:
-           Возращает None если отработала часть с хиллом,
-           заменной меча.
-           Возращает количество убитых монстров в случае
-           победы над монстром или в случае смерти рыцеря
+           Возращает None если отработала часть с хиллом,заменной меча.
+           Возращает True после победы над монстром и
+           в случае смерти рыцеря возвращает false.
        '''
     global HP
     global ATTACK
@@ -129,9 +129,8 @@ def battle(event_action: dict) -> bool:
         HP Здоровье рыцеря
         ATTACK атака рыцеря
     Return:
-        Здоровье и атаке монстра (monster_hp, monster_attack),
-        о атаке мечя (rapier),
-        о здоровье хилла (heal)
+        Возвращает True в случае победы рыцеря и
+        возвращает False в случае смерти рыцеря
         '''
     global ATTACK
     global HP
@@ -142,7 +141,7 @@ def battle(event_action: dict) -> bool:
         HP -= int(event_action['monster_attack'])
         print('================================================')
         print(f'Поздравляю Вы убили {MONSTER_COUNTER}-го монстра')
-        return MONSTER_COUNTER
+        return True
 
     elif (int(event_action['monster_attack']) == HP) and \
             (int(event_action['monster_hp']) < ATTACK):
@@ -150,7 +149,7 @@ def battle(event_action: dict) -> bool:
         HP -= int(event_action['monster_attack'])
         print('================================================')
         print(f'Поздравляю Вы убили {MONSTER_COUNTER}-го монстра')
-        return MONSTER_COUNTER
+        return True
     else:
         return False
 
@@ -179,6 +178,7 @@ def choice_monster() -> int:
 
 
 if __name__ == '__main__':
+    global MONSTER_COUNTER
     while True:
         final = game()
         if final is None:
@@ -186,10 +186,11 @@ if __name__ == '__main__':
         elif final is False:
             print('ПОРАЖЕНИЕ! Вас убили')
             break
-        elif final < 10:
-            continue
-        elif final == 10:
-            print('ПОБЕДА! Вы прошли игру')
-            break
+        elif final is True:
+            if MONSTER_COUNTER < 10:
+                continue
+            elif MONSTER_COUNTER == 10:
+                print('ПОБЕДА! Вы прошли игру')
+                break
         else:
             print('ловим ошибки')
