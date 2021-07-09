@@ -5,7 +5,7 @@ HP = 15
 ATTACK = 10
 
 
-def generate_items(item: str)->dict:
+def generate_items(item: str) -> dict:
     '''
     Функция генерит случайные рандомные статы мечя, хилла яблока,
     статы монстра здоровье и атаку
@@ -23,7 +23,8 @@ def generate_items(item: str)->dict:
     if item == 'БОЙ':
         monster_attack = random.randint(5, 10)
         monster_hp = random.randint(10, 15)
-        return {'monster_attack': f'{monster_attack}', 'monster_hp': f'{monster_hp}'}
+        return {'monster_attack': f'{monster_attack}',
+                'monster_hp': f'{monster_hp}'}
     elif item == 'МЕЧ':
         rapier = random.randint(10, 25)
         return {'rapier': f'{rapier}'}
@@ -43,9 +44,10 @@ def game():
            Если event_action вернул monster_attack и monster_hp тогда
             запускается фунция battle()
        Return:
-           Возращает None если отработала часть с хиллом, заменной меча.
-           Возращает количество убитых монстров в случае победы над монстром или
-           в случае смерти рыцеря
+           Возращает None если отработала часть с хиллом,
+           заменной меча.
+           Возращает количество убитых монстров в случае
+           победы над монстром или в случае смерти рыцеря
        '''
     global HP
     global ATTACK
@@ -63,7 +65,8 @@ def game():
         else:
             diff_HP = int(event_action["heal"]) - 15
             print('================================================')
-            print(f'Вы съели Яблоко. Ваше здоровье увеличилось +{abs(diff_HP)} HP')
+            print(f'Вы съели Яблоко. Ваше здоровье увеличилось '
+                  f'+{abs(diff_HP)} HP')
             print('================================================')
             return None
 
@@ -78,7 +81,8 @@ def game():
 
     elif 'monster_attack' and 'monster_hp' in event_action.keys():
         print(f'БОЙ, вы встретили монстра. СТАТЫ: '
-              f'{event_action["monster_hp"]} HP, {event_action["monster_attack"]} ATTACK')
+              f'{event_action["monster_hp"]} HP, '
+              f'{event_action["monster_attack"]} ATTACK')
         print(f'Ваше здоровье {HP} HP, ваша атака {ATTACK} ATTACK')
         print('================================================')
         if choice_monster() == 1:
@@ -104,8 +108,9 @@ def choice_rapier() -> int:
             if int(take) == 1 or int(take) == 2:
                 return take
             else:
-                print('Введите пожалуйста число 1 для того чтобы пропустить,  2 для того чтобы взять предмет\n ')
-        except ValueError as e:
+                print('Введите пожалуйста число 1 для того чтобы пропустить,'
+                      '  2 для того чтобы взять предмет\n ')
+        except ValueError:
             print('Попробуйте еще раз!\n')
 
 
@@ -131,14 +136,16 @@ def battle(event_action: dict) -> bool:
     global ATTACK
     global HP
     global MONSTER_COUNTER
-    if (int(event_action['monster_attack']) < HP) and (int(event_action['monster_hp']) < ATTACK):
+    if (int(event_action['monster_attack']) < HP) and \
+            (int(event_action['monster_hp']) < ATTACK):
         MONSTER_COUNTER += 1
         HP -= int(event_action['monster_attack'])
         print('================================================')
         print(f'Поздравляю Вы убили {MONSTER_COUNTER}-го монстра')
         return MONSTER_COUNTER
 
-    elif (int(event_action['monster_attack']) == HP) and (int(event_action['monster_hp']) < ATTACK):
+    elif (int(event_action['monster_attack']) == HP) and \
+            (int(event_action['monster_hp']) < ATTACK):
         MONSTER_COUNTER += 1
         HP -= int(event_action['monster_attack'])
         print('================================================')
@@ -146,7 +153,6 @@ def battle(event_action: dict) -> bool:
         return MONSTER_COUNTER
     else:
         return False
-
 
 
 def choice_monster() -> int:
@@ -161,21 +167,23 @@ def choice_monster() -> int:
     while True:
         try:
             take = int(input('Введите число, чтобы начать действие: '
-                             '\n1 - атаковать чудовище \n2 - убежать\n').strip())
+                             '\n1 - атаковать чудовище '
+                             '\n2 - убежать\n').strip())
             if int(take) == 1 or int(take) == 2:
                 return take
             else:
-                print('Введите пожалуйста число 1 для того чтобы атаковать,  2 для того чтобы убежать\n ')
-        except ValueError as e:
+                print('Введите пожалуйста число 1 для того чтобы атаковать,'
+                      '  2 для того чтобы убежать\n ')
+        except ValueError:
             print('Попробуйте еще раз!\n')
 
 
 if __name__ == '__main__':
     while True:
         final = game()
-        if final == None:
+        if final is None:
             continue
-        elif final == False:
+        elif final is False:
             print('ПОРАЖЕНИЕ! Вас убили')
             break
         elif final < 10:
