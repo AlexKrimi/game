@@ -55,24 +55,16 @@ def game()-> Any:
     action = random.randint(0, 2)
     event_action = generate_items(event[action])
     if 'heal' in event_action.keys():
-        print(f'ЯБЛОКО, вы нашли лечение на {event_action["heal"]} HP')
+        print(f'ЯБЛОКО, вы нашли лечение на {event_action["heal"]} HP\n')
         if int(event_action["heal"]) + HP >= 15:
             HP = 15
-            print('================================================')
-            print(f'Вы съели Яблоко. Ваше здоровье {HP} HP')
-            print('================================================')
             return None
         else:
             diff_HP = int(event_action["heal"]) - 15
-            print('================================================')
-            print(f'Вы съели Яблоко. Ваше здоровье увеличилось '
-                  f'+{abs(diff_HP)} HP')
-            print('================================================')
             return None
 
     elif 'rapier' in event_action.keys():
         print(f'Вы нашли МЕЧ с {event_action["rapier"]} ATTACK')
-        print('================================================')
         if choice_rapier() == 1:
             ATTACK = int(event_action['rapier'])
             return None
@@ -83,8 +75,7 @@ def game()-> Any:
         print(f'БОЙ, вы встретили монстра. СТАТЫ: '
               f'{event_action["monster_hp"]} HP, '
               f'{event_action["monster_attack"]} ATTACK')
-        print(f'Ваше здоровье {HP} HP, ваша атака {ATTACK} ATTACK')
-        print('================================================')
+        # print(f'Ваше здоровье {HP} HP, ваша атака {ATTACK} ATTACK')
         if choice_monster() == 1:
             return battle(event_action)
     else:
@@ -104,7 +95,6 @@ def choice_rapier() -> int:
         try:
             take = int(input('Введите число, чтобы начать действие: '
                              '\n1 - взять меч \n2 - пройти мимо\n').strip())
-            print('================================================')
             if int(take) == 1 or int(take) == 2:
                 return take
             else:
@@ -139,7 +129,6 @@ def battle(event_action: dict) -> bool:
             (int(event_action['monster_hp']) < ATTACK):
         MONSTER_COUNTER += 1
         HP -= int(event_action['monster_attack'])
-        print('================================================')
         print(f'Поздравляю Вы убили {MONSTER_COUNTER}-го монстра')
         return True
 
@@ -147,7 +136,6 @@ def battle(event_action: dict) -> bool:
             (int(event_action['monster_hp']) < ATTACK):
         MONSTER_COUNTER += 1
         HP -= int(event_action['monster_attack'])
-        print('================================================')
         print(f'Поздравляю Вы убили {MONSTER_COUNTER}-го монстра')
         return True
     else:
@@ -176,21 +164,36 @@ def choice_monster() -> int:
         except ValueError:
             print('Попробуйте еще раз!\n')
 
-
-if __name__ == '__main__':
-    global MONSTER_COUNTER
-    while True:
-        final = game()
-        if final is None:
+while True:
+    final = game()
+    if final is None:
+        continue
+    elif final is False:
+        print('ПОРАЖЕНИЕ! Вас убили')
+        break
+    elif final is True:
+        if MONSTER_COUNTER < 10:
             continue
-        elif final is False:
-            print('ПОРАЖЕНИЕ! Вас убили')
+        elif MONSTER_COUNTER == 10:
+            print('ПОБЕДА! Вы прошли игру')
             break
-        elif final is True:
-            if MONSTER_COUNTER < 10:
-                continue
-            elif MONSTER_COUNTER == 10:
-                print('ПОБЕДА! Вы прошли игру')
-                break
-        else:
-            print('ловим ошибки')
+    else:
+        print('ловим ошибки')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
