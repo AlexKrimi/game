@@ -19,12 +19,12 @@ def valid_number(number: str) -> str:
 def weapon(rapier: int) -> bool:
     """Событие нахождение меча."""
     global attack
-    print(f"Нашли новый МЕЧ с атакой {rapier}")
-    input_number = input("1 - Взять МЕЧ\n2 - Пройти мимо\n")
+    print(f"Вы нашли новый МЕЧ {rapier} с атакой ")
+    input_number = input(f"1 - Взять меч c атакой {rapier}\n2 - Пройти мимо\n")
     input_number = valid_number(input_number)
     if input_number == "1":
         attack = rapier
-        print(f"У Вас новый меч с атакой {attack}\n")
+        print(f"Вы взяли меч с атакой {rapier}")
         return True
     else:
         return False
@@ -33,7 +33,7 @@ def weapon(rapier: int) -> bool:
 def heal_plus(heal: int) -> bool:
     """Событие выполнения хилла."""
     global hp
-    print(f"Вы нашли ЯБЛОКО + {heal} к здоровью")
+    print(f"Вы нашли хилл + {heal} к здоровью")
     hp += heal
     return True
 
@@ -44,13 +44,13 @@ def battle(monster_attack: int, monster_hp: int) -> bool:
     global attack
     global monster_counter
     print(f"БОЙ! Вы встрели монстра {monster_hp} хп {monster_attack} дамаг")
-    input_number = input("1 - Начать бой\n2 - Убежать\n")
+    input_number = input("1 - Начать бой 2 - Убежать")
     input_number = valid_number(input_number)
     if input_number == "2":
         return True
     else:
         hp -= monster_attack
-        if hp != 0 and hp > 0:
+        if hp > 0:
             if attack > monster_hp:
                 monster_counter += 1
                 print(f"Убито {monster_counter} монстров")
@@ -65,34 +65,25 @@ def battle(monster_attack: int, monster_hp: int) -> bool:
 def game() -> Any:
     """Основаня фунция запускает все события."""
     global monster_counter
-    event = ["БОЙ", "МЕЧ", "ЯБЛОКО", "ЯБЛОКО", "БОЙ"]
-    action = random.randint(0, 4)
-    event_action = event[action]
+    event = ["БОЙ", "МЕЧ", "ЯБЛОКО"]
 
-    if event_action == "БОЙ":
-        monster_attack = random.randint(4, 6)
-        monster_hp = random.randint(4, 6)
-        battle(monster_attack, monster_hp)
-        return None
+    while monster_counter < 10 and hp > 0:
+        action = random.randint(0, 2)
+        if event[action] == "БОЙ":
+            monster_attack = random.randint(2, 3)
+            monster_hp = random.randint(2, 3)
+            battle(monster_attack, monster_hp)
 
-    elif event_action == "МЕЧ":
-        rapier = random.randint(11, 15)
-        weapon(rapier)
-        return None
+        elif event[action] == "МЕЧ":
+            rapier = random.randint(11, 15)
+            weapon(rapier)
 
-    elif event_action == "ЯБЛОКО":
-        heal = random.randint(4, 7)
-        heal_plus(heal)
-        return None
+        elif event[action] == "ЯБЛОКО":
+            heal = random.randint(6, 8)
+            heal_plus(heal)
 
-
-if __name__ == "__main__":
-    while True:
-        if monster_counter < 10 and hp > 0:
-            game()
-        if hp <= 0:
-            print("ПОРАЖЕНИЕ!")
-            sys.exit()
-        if monster_counter == 10:
-            print("ПОБЕДА! Вы убили 10 монстров\n")
-            sys.exit()
+    if hp <= 0:
+        print("ПОРАЖЕНИЕ!")
+    if monster_counter == 10:
+        print("ПОБЕДА! Вы убили 10 монстров\n")
+    sys.exit()
