@@ -19,5 +19,7 @@ steps:
 
 - script: |
     python3 -m tox
-  displayName: 'Run toxt'
+  displayName: 'Run tox'
+
+
 
