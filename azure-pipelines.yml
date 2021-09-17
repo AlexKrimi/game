@@ -11,7 +11,7 @@ pr:
   drafts: true
 
 pool:
-  vmImage: ubuntu-latest
+  name: 1
 
 steps:
 - script: |
