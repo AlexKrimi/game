@@ -10,8 +10,8 @@ pr:
   autoCancel: false
   drafts: true
 
-pool:
-  name: 1
+# pool:
+#   name: 1
 
 steps:
 - script: |
