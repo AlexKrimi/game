@@ -14,7 +14,7 @@ pool: POOL1
 
 steps:
 - script: |
-    python3 -m pip install tox
+    python3 -m pip install tox --user
   displayName: 'install tox'
 
 - script: |
