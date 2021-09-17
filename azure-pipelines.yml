@@ -6,13 +6,19 @@
 trigger:
 - master
 
+pr:
+  autoCancel: false
+  drafts: true
+
 pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: pip install tox
+- script: |
+    python3 -m pip install tox
   displayName: 'install tox'
 
-- script: tox
+- script: |
+    python3 -m tox
   displayName: 'Run toxt'
 
