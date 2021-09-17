@@ -5,7 +5,7 @@ from unittest.mock import patch
 import importlib
 
 rpg = importlib.import_module("main")
-
+print("hello")
 
 class RpgTestCase(TestCase):
     """Юнит тест для домашнего задания 1."""
