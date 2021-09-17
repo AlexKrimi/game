@@ -10,8 +10,7 @@ pr:
   autoCancel: false
   drafts: true
 
-# pool:
-#   name: 1
+pool: Azure Pipelines
 
 steps:
 - script: |
